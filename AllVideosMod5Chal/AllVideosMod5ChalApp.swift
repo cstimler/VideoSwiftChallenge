@@ -11,7 +11,7 @@ import SwiftUI
 struct AllVideosMod5ChalApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environmentObject(ContentModel())
         }
     }
 }
