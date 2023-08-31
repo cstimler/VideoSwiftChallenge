@@ -4,6 +4,7 @@
 //
 //  Created by October2022 on 8/30/23.
 //
+// resume search bar: https://www.hackingwithswift.com/quick-start/swiftui/how-to-add-a-search-bar-to-filter-your-data
 
 import SwiftUI
 
@@ -27,17 +28,27 @@ struct ContentView: View {
                     LazyVStack (alignment: .leading) {
                         
                         ForEach(model.modules) {module in
-                           Divider()
-                            NavigationLink(destination: VideoView(title: module.title, urlString: module.url)
-                                .onDisappear(perform:
-                                        {
-                            scrollViewID = UUID()
-                            }), label: {
-                                Text(module.title)
-                                    .multilineTextAlignment(.leading)
-                                    .padding()
-                            })
-                            .accentColor(.black)
+                            
+                            if titleSearch(module.title) == ""
+                            { }
+                            else
+                            {
+                                
+                                Divider()
+                                 NavigationLink(destination: VideoView(title: module.title, urlString: module.url)
+                                     .onDisappear(perform:
+                                             {
+                                 scrollViewID = UUID()
+                                 }), label: {
+                                     Text(titleSearch(module.title))
+                                         .multilineTextAlignment(.leading)
+                                         .padding()
+                                 })
+                                 .accentColor(.black)
+                                
+                            }
+                            
+                          
                             
                             
                             
@@ -53,10 +64,24 @@ struct ContentView: View {
         }
         .navigationViewStyle(.stack)
         .searchable(text: $searchText)
+        .autocapitalization(.none)
         .id(self.scrollViewID)
     }
+    
+    func titleSearch(_ temp:String) -> String {
+        
+        if temp.contains($searchText.wrappedValue) || $searchText.wrappedValue == "" {
+            
+            return temp
+        } else {
+            return ""
+        }
+        }
+        
+        
+    }
    
-}
+
 
 
 
